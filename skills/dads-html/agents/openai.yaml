@@ -1,0 +1,4 @@
+interface:
+  display_name: "DADS HTML"
+  short_description: "デジタル庁デザインシステムでCSS/JSを内包した単一HTMLを作成"
+  default_prompt: "$dads-html を使って、デジタル庁デザインシステムで住所変更届のフォームページを単一HTMLとして作成してください。"

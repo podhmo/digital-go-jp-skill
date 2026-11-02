@@ -1,7 +1,7 @@
 # digital-go-jp-skill
 
 [デジタル庁デザインシステム コードスニペット（HTML版）](https://github.com/digital-go-jp/design-system-example-components-html)を使って、
-CSS/JSをすべてインライン化したスタンドアロンHTMLを作成する Claude Code スキル `dads-html`。
+CSS/JSをすべてインライン化したスタンドアロンHTMLを作成する Claude Code / Codex 共通スキル `dads-html`。
 
 ## 構成
 
@@ -9,6 +9,7 @@ CSS/JSをすべてインライン化したスタンドアロンHTMLを作成す�
 vendor/design-system-example-components-html/   # git submodule（公式リポジトリ）
 skills/dads-html/
 ├── SKILL.md
+├── agents/openai.yaml    # Codex用の表示名・説明・既定プロンプト
 ├── dads -> ../../vendor/design-system-example-components-html/src
 ├── references/
 │   ├── components.md     # コンポーネント一覧（gen_catalog.py で自動生成）
@@ -18,6 +19,7 @@ skills/dads-html/
     ├── build_standalone.py  # 下書き → スタンドアロンHTML
     └── gen_catalog.py       # references/components.md の再生成
 .claude/skills/dads-html -> ../../skills/dads-html   # このリポジトリ内で使う用
+.agents/skills/dads-html -> ../../skills/dads-html   # Codex用（同じスキルを共有）
 ```
 
 ## セットアップ
@@ -28,16 +30,33 @@ git clone --recursive https://github.com/podhmo/digital-go-jp-skill
 git submodule update --init
 ```
 
-このリポジトリ内で Claude Code を起動すればスキルが使える。
+このリポジトリ内で Claude Code または Codex を起動すればスキルが使える。
 他のプロジェクトでも使いたい場合はユーザースキルとしてリンクする（相対シンボリックリンクはリポジトリ内で解決されるので動く）:
 
 ```bash
 ln -s "$PWD/skills/dads-html" ~/.claude/skills/dads-html
 ```
 
+Codex のユーザースキルとして使う場合（リポジトリのルートで実行）:
+
+```bash
+mkdir -p ~/.agents/skills
+ln -s "$PWD/skills/dads-html" ~/.agents/skills/dads-html
+```
+
+Codex の配置先・シンボリックリンク対応は[公式ドキュメント](https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills)を参照。
+
 ## 使い方
 
 Claude Code に「デジタル庁デザインシステムで住所変更届のフォームページを作って」などと頼む。
+
+Codex でも同様に依頼できる。明示的に指定する場合は、次のように `$dads-html` を含める:
+
+```text
+$dads-html を使って、住所変更届のフォームページを単一HTMLとして作成して。
+```
+
+スキル一覧に表示されない場合は Codex を再起動する。
 
 スクリプト単体でも使える:
 
